@@ -254,7 +254,7 @@ def run_simulation(nx, tmax, plot_interval, charge=10.0):
         step += 1
         
         # Print diagnostic information
-        if step == 1 or t >= next_plot:
+        if step == 1 or t >= next_plot or t >= tmax:
             print(f"Time: {t:.2e} s (Step {step})")
             print(f"dt: {dt:.2e}")
             print(f"Max electron density: {torch.max(model.U_e[0]):.3e}")

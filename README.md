@@ -1,10 +1,8 @@
 # Two-Fluid Plasma Model Simulation
 
-**Note: This code is functional but experimental. The code structure may be improved in future updates.**
+This code was completely written by Claude in Windsurf with user prompting.
 
 This repository contains a PyTorch implementation of a two-fluid plasma model based on the paper ["Approximate Riemann solver for the two-fluid plasma model"](https://www.aa.washington.edu/sites/aa/files/research/cpdlab/docs/Shumlak_JCP2003.pdf) by Uri Shumlak et al.
-
-The code was completely AI-generated with human assistance through Windsurf IDE and Claude 3.5 Sonnet.
 
 ## Features
 
