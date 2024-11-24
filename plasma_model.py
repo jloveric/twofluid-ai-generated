@@ -403,9 +403,10 @@ class TwoFluidModel:
     def get_electron_temperature(self):
         """Get electron temperature from conserved variables"""
         n = self.U_e[0]
+        E = self.U_e[4]
         v = self.U_e[1:4] / n.unsqueeze(0)
-        E = 0.5 * (v * v).sum(dim=0) * n  # Kinetic energy density
-        return (self.U_e[4] - E) / n  # T = (E - 0.5*ρv²)/n
+        ke = 0.5 * mass_electron * torch.sum(v**2, dim=0)
+        return (E - ke) / (1.5 * n)
 
     def get_ion_temperature(self):
         """Get ion temperature from conserved variables"""
@@ -455,56 +456,3 @@ class TwoFluidModel:
         UR = U - 0.5 * dx * slopes
         
         return UL, UR
-
-# Example usage
-if __name__ == "__main__":
-    # Set up grid
-    nx = 100  # Number of spatial points
-    dx = 0.01  # Spatial step size (meters)
-    dt = 1e-12  # Time step (seconds)
-    
-    # Initialize model
-    model = TwoFluidModel(nx, dx)
-    
-    # Set up initial conditions
-    # Gaussian perturbation in electron density
-    x = torch.linspace(0, (nx-1)*dx, nx, device=device)
-    n_e = torch.ones(nx, device=device) + 0.1 * torch.exp(-(x - nx*dx/2)**2 / (0.1*nx*dx)**2)
-    v_e = torch.zeros((3, nx), device=device)
-    T_e = torch.ones(nx, device=device) * 1e4  # 10,000 K
-    
-    # Ion initial conditions
-    n_i = torch.ones(nx, device=device)
-    v_i = torch.zeros((3, nx), device=device)
-    T_i = torch.ones(nx, device=device) * 1e4  # 10,000 K
-    
-    # Electromagnetic field initial conditions
-    E = torch.zeros((3, nx), device=device)
-    B = torch.zeros((3, nx), device=device)
-    B[2, :] = 1e-3  # Small uniform magnetic field in z-direction
-    
-    # Set initial conditions
-    U_e = torch.zeros((5, nx), device=device)
-    U_e[0] = n_e
-    U_e[1:4] = n_e.unsqueeze(0) * v_e
-    U_e[4] = 1.5 * n_e * T_e + 0.5 * mass_electron * n_e * torch.sum(v_e**2, dim=0)
-    
-    U_i = torch.zeros((5, nx), device=device)
-    U_i[0] = n_i
-    U_i[1:4] = n_i.unsqueeze(0) * v_i
-    U_i[4] = 1.5 * n_i * T_i + 0.5 * mass_ion * n_i * torch.sum(v_i**2, dim=0)
-    
-    model.set_initial_conditions(U_e, v_e, T_e, U_i, v_i, T_i, E, B)
-    
-    # Run simulation for 1000 steps
-    print("Starting simulation...")
-    for i in range(1000):
-        if i % 100 == 0:
-            print(f"Step {i}")
-            print(f"Max electron density: {torch.max(model.U_e[0]):.3e}")
-            print(f"Max ion density: {torch.max(model.U_i[0]):.3e}")
-            print(f"Max E field: {torch.max(torch.abs(model.E)):.3e}")
-            print(f"Max B field: {torch.max(torch.abs(model.B)):.3e}")
-            print("---")
-        
-        model.step(dt)

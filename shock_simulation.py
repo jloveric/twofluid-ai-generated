@@ -1,12 +1,9 @@
-import os
+import click
 import torch
-import numpy as np
+from plasma_model import TwoFluidModel, device, mass_electron, mass_ion, c, mu_0
+import os
 import matplotlib.pyplot as plt
-from plasma_model import (
-    TwoFluidModel, device,
-    mass_electron, mass_ion,
-    epsilon_0, mu_0, c
-)
+import numpy as np
 
 def setup_shock_conditions(nx, dx):
     """
@@ -210,7 +207,7 @@ def plot_state(model, x, t, save_path=None):
     else:
         plt.show()
 
-def run_simulation(nx=200, tmax=1e-9, plot_interval=1e-10, charge=10.0):
+def run_simulation(nx, tmax, plot_interval, charge=10.0):
     """
     Run the two-fluid shock simulation
     
@@ -272,21 +269,15 @@ def run_simulation(nx=200, tmax=1e-9, plot_interval=1e-10, charge=10.0):
     
     return model, x
 
-def main():
-    # Simulation parameters
-    nx = 10000  # Number of spatial points
-    L = 1.0   # Domain length
-    dx = L / nx
-    
-    # Species charge magnitude
-    charge = 10.0  # qi = +10, qe = -10
-    
-    # Time parameters
-    tmax = 20.0     # Run until t = 20.0
-    plot_interval = 2.0  # Plot every 2.0 time units (10 snapshots)
-    
-    # Run simulation
-    model, x = run_simulation(nx, tmax, plot_interval, charge=charge)
+@click.command()
+@click.option('--resolution', '-r', default=500, help='Number of spatial grid points')
+@click.option('--final-time', '-t', default=0.2, help='Final simulation time')
+@click.option('--plot-interval', '-p', default=0.01, help='Time between plots')
+@click.option('--charge', '-c', default=10.0, help='Magnitude of species charge (ion: +charge, electron: -charge)')
+def main(resolution, final_time, plot_interval, charge):
+    """Run two-fluid plasma shock simulation"""
+    print("Starting shock simulation...")
+    run_simulation(resolution, final_time, plot_interval, charge)
 
 if __name__ == "__main__":
     main()
