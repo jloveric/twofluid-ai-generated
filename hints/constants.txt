@@ -1,0 +1,11 @@
+
+ionCharge = 1.0,
+electronCharge = -1.0,
+ionMass = 1,
+electronMass = 5.447e-4,
+speedOfLight = 1.0,
+ionGamma = 1.66666,
+electronGamma = 1.66666,
+mu0	= 1,
+epsilon0 = 1,
+
