@@ -19,7 +19,7 @@ This repository contains a PyTorch implementation of a two-fluid plasma model ba
 This project uses Poetry for dependency management. To install:
 
 ```bash
-poetry install
+poetry install --no-root
 ```
 
 ## Usage
