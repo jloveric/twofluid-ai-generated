@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "two-fluid-riemann"
+version = "0.1.0"
+description = "1D approximate Riemann solver for two-fluid plasma system using PyTorch"
+authors = ["Your Name <your.email@example.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+torch = "^2.0.0"
+matplotlib = "^3.7.0"
+numpy = "^2.1.3"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
