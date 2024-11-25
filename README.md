@@ -2,7 +2,7 @@
 
 This code was completely written by Claude in Windsurf with user prompting.
 
-This repository contains a PyTorch implementation of a two-fluid plasma model based on the paper ["Approximate Riemann solver for the two-fluid plasma model"](https://www.aa.washington.edu/sites/aa/files/research/cpdlab/docs/Shumlak_JCP2003.pdf) by Uri Shumlak et al.
+This repository contains a PyTorch implementation of a two-fluid plasma model based on ["Approximate Riemann solver for the two-fluid plasma model"](https://www.aa.washington.edu/sites/aa/files/research/cpdlab/docs/Shumlak_JCP2003.pdf).
 
 ## Features
 
