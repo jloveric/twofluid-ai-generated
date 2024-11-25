@@ -46,6 +46,8 @@ Options:
 
 The complete development conversation between the human developer and Claude 3.5 Sonnet is available in [TRANSCRIPT.md](TRANSCRIPT.md). This transcript shows the iterative process of implementing the model, debugging issues, and making improvements.
 
+[A YouTube video of an attempt to develop this code with AI](https://www.youtube.com/watch?v=NQ3hNe5bxxc)
+
 ## Latest Simulation Results
 
 ![Final State](shock_results/state_t1.80e+01.png)
